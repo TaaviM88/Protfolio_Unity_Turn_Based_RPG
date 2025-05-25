@@ -34,3 +34,13 @@ public enum StatusCondition
     Asleep,
     Confused
 }
+public enum GameState
+{
+    MainMenu,
+    InBattle,
+    Exploring,
+    Inventory,
+    Settings,
+    Menu,
+    Dialog
+}
