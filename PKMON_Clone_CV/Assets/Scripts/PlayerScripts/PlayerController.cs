@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public PlayerAnimationController playerAnimationController;
-    public Transform cameraTarget; 
+    public Transform cameraTarget;
+    public Transform model;
     private PlayerInputActions playerInputActions;
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float runSpeed = 8f;
@@ -79,7 +80,8 @@ public class PlayerController : MonoBehaviour
         if (move.magnitude > 0)
         {
             Quaternion targetRotation = Quaternion.LookRotation(move, Vector3.up);
-            transform.DORotateQuaternion(targetRotation, 0.15f);
+            //transform.DORotateQuaternion(targetRotation, 0.15f);
+            model.DORotateQuaternion(targetRotation, 0.15f);
         }
 
         // Move with CharacterController
