@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterName: Frostbite
   nationaldexNumber: 10
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 1770882891172268, guid: 3efcc829b17627b42be7c2557c91a937, type: 3}
   elements: 06000000
   baseStats:
     hp: 70

@@ -17,5 +17,6 @@ MonoBehaviour:
   power: 40
   accuracy: 100
   pp: 25
+  maxPP: 25
   category: 1
   description: 'Shoots small flames that may burn the opponent.  '

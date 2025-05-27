@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterName: Zephyrkit
   nationaldexNumber: 6
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 8073443194988779917, guid: 6b0b0b098177a3b439c80991ec9deacc, type: 3}
   elements: 0a000000
   baseStats:
     hp: 45

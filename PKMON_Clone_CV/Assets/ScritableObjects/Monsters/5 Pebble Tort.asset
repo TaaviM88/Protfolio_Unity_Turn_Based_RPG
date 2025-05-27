@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterName: 'Pebble Tort  '
   nationaldexNumber: 5
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 2213269028173259352, guid: 065702c428bd7064c9b1e1bcaf003967, type: 3}
   elements: 0d000000
   baseStats:
     hp: 70

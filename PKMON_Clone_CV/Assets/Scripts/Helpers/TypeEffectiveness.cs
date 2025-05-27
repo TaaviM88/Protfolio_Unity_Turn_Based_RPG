@@ -261,5 +261,19 @@ public static class TypeEffectiveness
         }
         return totalEffectiveness;
     }
-
+    public static EffectivenessType GetEffectivenessType(float effectiveness)
+    {
+        if (effectiveness > 1f) return EffectivenessType.Strong; // e.g., 2x, 4x
+        if (effectiveness < 1f && effectiveness > 0f) return EffectivenessType.Weak; // e.g., 0.5x, 0.25x
+        return EffectivenessType.Neutral; // 1x or 0x
+    }
+    public static EffectivenessType GetMoveEffectivenessType(Move move, MonsterInstance opponent)
+    {
+        if (move == null || opponent?.baseMonster?.elements == null)
+        {
+            return EffectivenessType.Neutral;
+        }
+        float effectiveness = CalculateEffectiveness(move.element, opponent.baseMonster.elements);
+        return GetEffectivenessType(effectiveness);
+    }
 }

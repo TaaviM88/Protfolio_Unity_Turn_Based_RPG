@@ -17,5 +17,6 @@ MonoBehaviour:
   power: 45
   accuracy: 100
   pp: 25
+  maxPP: 25
   category: 0
   description: 'Whips the opponent with vines.  '

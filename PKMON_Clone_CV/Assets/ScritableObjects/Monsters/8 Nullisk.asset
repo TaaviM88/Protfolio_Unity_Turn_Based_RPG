@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterName: 'Nullisk  '
   nationaldexNumber: 8
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 1620823866523042, guid: 31f2ecfec20d54541ace8f82e1071325, type: 3}
   elements: 00000000
   baseStats:
     hp: 60

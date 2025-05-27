@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCTrainer : MonoBehaviour
 {
-    [SerializeField] private string trainerName = "Trainer Bob";
+
     [SerializeField] private Trainer trainerData; // Assigned in Inspector
     [SerializeField] private float interactionRange = 3f; // Range for player interaction
     [TextArea(3,10)]
@@ -52,12 +53,29 @@ public class NPCTrainer : MonoBehaviour
     }
     private void StartBattle()
     {
-        //dialogueText.gameObject.SetActive(false);
-        //isDialogueActive = false;
-
-        // Set trainer data in GameManager
-        GameManager.Instance.opponentTrainer = trainerData;
-        GameManager.Instance.wildMonster = null; // Ensure wild battle is not active
+        Trainer trainer = new Trainer
+        {
+            trainerName = trainerData.trainerName,
+            monsterParty = new List<MonsterInstance>()
+        };
+        foreach (var monster in trainerData.monsterParty)
+        {
+            var newMonster = new MonsterInstance
+            {
+                baseMonster = monster.baseMonster,
+                level = monster.level,
+                currentHp = monster.currentHp > 0 ? monster.currentHp : monster.baseMonster.baseStats.hp,
+                currentMoves = new List<Move>(monster.currentMoves),
+                ivs = monster.ivs,
+                evs = monster.evs,
+                calculatedStats = monster.calculatedStats,
+                status = monster.status
+            };
+            MonsterStatsCalculator.CalculateStats(newMonster, assignMoves: true);
+            trainer.monsterParty.Add(newMonster);
+        }
+        GameManager.Instance.opponentTrainer = trainer;
+        GameManager.Instance.wildMonster = null;
 
         // Trigger battle via BattleTrigger
         FindAnyObjectByType<BattleTrigger>().StartBattle();

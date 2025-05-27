@@ -8,6 +8,7 @@ public class Move : ScriptableObject
     public int power;
     public int accuracy;
     public int pp;
+    public int maxPP;
     public MoveCategory category;
     public string description;
 }

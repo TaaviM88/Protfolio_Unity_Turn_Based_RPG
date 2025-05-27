@@ -28,48 +28,7 @@ public class BattleTrigger : MonoBehaviour
 
     public void StartBattle()
     {
-        if (isWildBattle)
-        {
-            // Create a wild monster
-            GameManager.Instance.wildMonster = new MonsterInstance
-            {
-                baseMonster = ScriptableObject.CreateInstance<Monster>(),
-                level = 5,
-                currentHp = 20,
-                currentMoves = new List<Move>()
-            };
-            GameManager.Instance.wildMonster.baseMonster.monsterName = "WildMonster";
-            GameManager.Instance.wildMonster.baseMonster.elements = new List<ElementType> { ElementType.Null };
-        }
-        else
-        {
-            // Create a trainer with 2 monsters for testing
-            GameManager.Instance.opponentTrainer = new Trainer
-            {
-                trainerName = "Trainer Bob",
-                monsterParty = new List<MonsterInstance>
-                {
-                    new MonsterInstance
-                    {
-                        baseMonster = ScriptableObject.CreateInstance<Monster>(),
-                        level = 6,
-                        currentHp = 25,
-                        currentMoves = new List<Move>()
-                    },
-                    new MonsterInstance
-                    {
-                        baseMonster = ScriptableObject.CreateInstance<Monster>(),
-                        level = 7,
-                        currentHp = 30,
-                        currentMoves = new List<Move>()
-                    }
-                }
-            };
-            GameManager.Instance.opponentTrainer.monsterParty[0].baseMonster.monsterName = "TrainerMon1";
-            GameManager.Instance.opponentTrainer.monsterParty[0].baseMonster.elements = new List<ElementType> { ElementType.Fire };
-            GameManager.Instance.opponentTrainer.monsterParty[1].baseMonster.monsterName = "TrainerMon2";
-            GameManager.Instance.opponentTrainer.monsterParty[1].baseMonster.elements = new List<ElementType> { ElementType.Water };
-        }
+     
 
         // Load battle scene additively
         TransitionManager.Instance.FadeToBattle(
@@ -101,6 +60,7 @@ public class BattleTrigger : MonoBehaviour
 
     public void EndBattle()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         TransitionManager.Instance.FadeToBattle(
             onFadeOut: () =>
             {

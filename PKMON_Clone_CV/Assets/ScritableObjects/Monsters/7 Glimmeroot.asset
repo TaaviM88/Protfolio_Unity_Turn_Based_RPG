@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterName: Glimmeroot
   nationaldexNumber: 7
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 51024720573713304, guid: 65291c8a18f74be4e98cb45bfd1e1fc9, type: 3}
   elements: 050000000b000000
   baseStats:
     hp: 65

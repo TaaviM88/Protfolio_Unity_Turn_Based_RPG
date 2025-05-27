@@ -17,5 +17,6 @@ MonoBehaviour:
   power: 60
   accuracy: 100
   pp: 20
+  maxPP: 20
   category: 1
   description: '"A pulsing wave of water that may confuse the target.  '

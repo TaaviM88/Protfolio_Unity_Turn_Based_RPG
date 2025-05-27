@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterName: Fluffel Pup
   nationaldexNumber: 1
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 2629182449500102118, guid: 15ca4494f24bf9741a48b37ec2c4c632, type: 3}
   elements: 01000000
   baseStats:
     hp: 50

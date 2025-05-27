@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterName: Sparkle Beetle
   nationaldexNumber: 9
-  monsterPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 1115127100741542, guid: 53a178f42f52a0c4e9fe7bac7f1bfcc3, type: 3}
   elements: 0c00000004000000
   baseStats:
     hp: 50

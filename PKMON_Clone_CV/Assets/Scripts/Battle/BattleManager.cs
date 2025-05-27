@@ -15,6 +15,7 @@ public class BattleManager : MonoBehaviour
     private bool isWildBattle;
     private GameObject playerMonsterObject; // Current player monster model
     private GameObject opponentMonsterObject; // Current opponent monster model
+    private bool isPlayerTurn = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,7 +25,6 @@ public class BattleManager : MonoBehaviour
     }
     private void InitializeBattle()
     {
-        // Determine battle type
         isWildBattle = GameManager.Instance.wildMonster != null;
         playerMonster = GetFirstUsableMonster(GameManager.Instance.playerParty);
         opponentParty = isWildBattle ? new List<MonsterInstance> { GameManager.Instance.wildMonster }
@@ -37,13 +37,112 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        // Spawn monster models
+        MonsterStatsCalculator.CalculateStats(playerMonster);
+        MonsterStatsCalculator.CalculateStats(opponentMonster);
+
+
         SpawnMonster(ref playerMonsterObject, playerMonster, playerMonsterPosition);
         SpawnMonster(ref opponentMonsterObject, opponentMonster, opponentMonsterPosition);
-
-        // Initialize UI
         battleUI.Setup(playerMonster, opponentMonster, isWildBattle ? "Wild" : GameManager.Instance.opponentTrainer.trainerName);
+        Cursor.lockState = CursorLockMode.Confined;
     }
+
+    public void PlayerPerformMove(int moveIndex)
+    {
+        if (!isPlayerTurn || moveIndex < 0 || moveIndex >= playerMonster.currentMoves.Count)
+        {
+            return;
+        }
+
+        Move playerMove = playerMonster.currentMoves[moveIndex];
+        if (playerMove.pp <= 0)
+        {
+            battleUI.UpdateBattleText($"{playerMove.moveName} has no PP left!");
+            return;
+        }
+
+        playerMove.pp--; // Decrease PP
+        battleUI.UpdateMoveButtons(); // Update PP display
+        battleUI.UpdateBattleText($"{playerMonster.baseMonster.monsterName} used {playerMove.moveName}!");
+
+        float effectiveness = TypeEffectiveness.CalculateEffectiveness(playerMove.element, opponentMonster.baseMonster.elements);
+        int damage = CalculateDamage(playerMove, playerMonster, opponentMonster, effectiveness);
+        opponentMonster.currentHp = Mathf.Max(0, opponentMonster.currentHp - damage);
+
+        battleUI.UpdateHP();
+        string effectivenessText = effectiveness switch
+        {
+            > 1f => "It's super effective!",
+            < 1f when effectiveness > 0f => "It's not very effective...",
+            0f => "It had no effect!",
+            _ => ""
+        };
+        if (!string.IsNullOrEmpty(effectivenessText))
+        {
+            battleUI.UpdateBattleText(effectivenessText);
+        }
+
+        if (opponentMonster.currentHp <= 0)
+        {
+            battleUI.UpdateBattleText($"{opponentMonster.baseMonster.monsterName} fainted!");
+            if (!SwitchOpponentMonster())
+            {
+                EndBattle();
+                return;
+            }
+            battleUI.UpdateMoveButtons(); // Update colors for new opponent
+        }
+        else
+        {
+            PerformOpponentMove();
+        }
+
+        isPlayerTurn = false;
+        Invoke(nameof(ResetTurn), 2f);
+    }
+    private void PerformOpponentMove()
+    {
+        Move opponentMove = opponentMonster.currentMoves[Random.Range(0, opponentMonster.currentMoves.Count)];
+        if (opponentMove.pp <= 0)
+        {
+            opponentMove = Resources.Load<Move>("Moves/Tackle"); // Fallback
+        }
+        else
+        {
+            opponentMove.pp--;
+        }
+
+        battleUI.UpdateBattleText($"{opponentMonster.baseMonster.monsterName} used {opponentMove.moveName}!");
+
+        float effectiveness = TypeEffectiveness.CalculateEffectiveness(opponentMove.element, playerMonster.baseMonster.elements);
+        int damage = CalculateDamage(opponentMove, opponentMonster, playerMonster, effectiveness);
+        playerMonster.currentHp = Mathf.Max(0, playerMonster.currentHp - damage);
+
+        battleUI.UpdateHP();
+        string effectivenessText = effectiveness switch
+        {
+            > 1f => "It's super effective!",
+            < 1f when effectiveness > 0f => "It's not very effective...",
+            0f => "It had no effect!",
+            _ => ""
+        };
+        if (!string.IsNullOrEmpty(effectivenessText))
+        {
+            battleUI.UpdateBattleText(effectivenessText);
+        }
+
+        if (playerMonster.currentHp <= 0)
+        {
+            battleUI.UpdateBattleText($"{playerMonster.baseMonster.monsterName} fainted!");
+            if (!SwitchPlayerMonster())
+            {
+                EndBattle();
+                return;
+            }
+            battleUI.UpdateMoveButtons();
+        }
+    }
+
     private void SpawnMonster(ref GameObject monsterObject, MonsterInstance monster, Transform position)
     {
         if (monsterObject != null)
@@ -55,6 +154,7 @@ public class BattleManager : MonoBehaviour
             monsterObject = Instantiate(monster.baseMonster.monsterPrefab, position);
         }
     }
+
     private MonsterInstance GetFirstUsableMonster(List<MonsterInstance> party)
     {
         foreach (var monster in party)
@@ -66,60 +166,41 @@ public class BattleManager : MonoBehaviour
         }
         return null;
     }
-    // Called when a monster faints
-    public void OnMonsterFainted(bool isPlayerMonster)
+
+    private bool SwitchPlayerMonster()
     {
-        if (isPlayerMonster)
+        playerMonster = GetFirstUsableMonster(GameManager.Instance.playerParty);
+        if (playerMonster != null)
         {
-            // Destroy current player monster model
-            if (playerMonsterObject != null)
-            {
-                Destroy(playerMonsterObject);
-            }
-
-            // Switch to next usable player monster
-            playerMonster = GetFirstUsableMonster(GameManager.Instance.playerParty);
-            if (playerMonster == null)
-            {
-                EndBattle(); // Player loses
-                return;
-            }
             SpawnMonster(ref playerMonsterObject, playerMonster, playerMonsterPosition);
-            battleUI.UpdatePlayerMonster(playerMonster);
+            battleUI.Setup(playerMonster, opponentMonster, isWildBattle ? "Wild" : GameManager.Instance.opponentTrainer.trainerName);
+            return true;
         }
-        else
-        {
-            // Destroy current opponent monster model
-            if (opponentMonsterObject != null)
-            {
-                Destroy(opponentMonsterObject);
-            }
-
-            // Switch to next usable opponent monster
-            opponentMonster = GetFirstUsableMonster(opponentParty);
-            if (opponentMonster == null)
-            {
-                EndBattle(); // Player wins
-                return;
-            }
-            SpawnMonster(ref opponentMonsterObject, opponentMonster, opponentMonsterPosition);
-            battleUI.UpdateOpponentMonster(opponentMonster);
-        }
+        return false;
     }
 
-    // Simple turn-based attack for testing
-    public void PerformAttack(MonsterInstance attacker, MonsterInstance defender, Move move)
+    private bool SwitchOpponentMonster()
     {
-        // Placeholder damage calculation (using type effectiveness)
-        float damage = 10f * TypeEffectiveness.CalculateEffectiveness(move.element, defender.baseMonster.elements);
-        defender.currentHp = Mathf.Max(0, defender.currentHp - (int)damage);
-        battleUI.UpdateHP(attacker, defender);
-
-        // Check for faints
-        if (defender.currentHp <= 0)
+        opponentMonster = GetFirstUsableMonster(opponentParty);
+        if (opponentMonster != null)
         {
-            OnMonsterFainted(defender == playerMonster);
+            SpawnMonster(ref opponentMonsterObject, opponentMonster, opponentMonsterPosition);
+            battleUI.Setup(playerMonster, opponentMonster, isWildBattle ? "Wild" : GameManager.Instance.opponentTrainer.trainerName);
+            return true;
         }
+        return false;
+    }
+
+    private int CalculateDamage(Move move, MonsterInstance attacker, MonsterInstance defender, float effectiveness)
+    {
+        int attackStat = move.category == MoveCategory.Physical ? attacker.calculatedStats.attack : attacker.calculatedStats.specialAttack;
+        int defenseStat = move.category == MoveCategory.Physical ? defender.calculatedStats.defense : defender.calculatedStats.specialDefense;
+        float damage = ((2 * attacker.level / 5f + 2) * move.power * attackStat / defenseStat / 50f + 2) * effectiveness;
+        return Mathf.FloorToInt(damage);
+    }
+    private void ResetTurn()
+    {
+        isPlayerTurn = true;
     }
     public void EndBattle()
     {

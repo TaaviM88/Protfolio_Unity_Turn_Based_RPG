@@ -17,5 +17,6 @@ MonoBehaviour:
   power: 40
   accuracy: 100
   pp: 35
+  maxPP: 35
   category: 0
   description: 'A basic physical attack that tackles the opponent.  '

@@ -94,11 +94,11 @@ public class PlayerController : MonoBehaviour
         playerAnimationController.SetPlayerSpeed(animSpeed);
 
         // Smooth rotation with DOTween
-        if (moveInput.magnitude > 0)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0, moveInput.y));
-            transform.DORotateQuaternion(targetRotation, 0.2f);
-        }
+        //if (moveInput.magnitude > 0)
+        //{
+        //    Quaternion targetRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0, moveInput.y));
+        //    transform.DORotateQuaternion(targetRotation, 0.2f);
+        //}
     }
     private void CheckIsGrounded()
     {

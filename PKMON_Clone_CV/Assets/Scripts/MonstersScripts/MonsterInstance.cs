@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterInstance : MonoBehaviour
+[System.Serializable]
+public class MonsterInstance
 {
     public Monster baseMonster;
     public int level;

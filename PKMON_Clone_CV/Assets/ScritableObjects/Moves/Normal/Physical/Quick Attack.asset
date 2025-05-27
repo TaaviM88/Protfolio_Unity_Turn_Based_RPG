@@ -17,5 +17,6 @@ MonoBehaviour:
   power: 40
   accuracy: 100
   pp: 30
+  maxPP: 30
   category: 0
   description: '"A fast attack that strikes first.  '

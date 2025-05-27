@@ -44,3 +44,10 @@ public enum GameState
     Menu,
     Dialog
 }
+
+public enum EffectivenessType 
+{ 
+    Strong,
+    Weak,
+    Neutral
+}

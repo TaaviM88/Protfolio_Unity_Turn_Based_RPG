@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,8 +32,27 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        InitializePlayerParty();
+    }
+
+    private void InitializePlayerParty()
+    {
+        // Recalculate stats for player party
+        foreach (var monster in playerParty)
+        {
+            if (monster != null && monster.baseMonster != null)
+            {
+                MonsterStatsCalculator.CalculateStats(monster, assignMoves: true);
+            }
+
+            else
+            {
+                Debug.LogWarning("Invalid monster in player party.");
+            }
+        }
 
     }
+
 
     // Clear battle-specific data
     public void ClearBattleData()
