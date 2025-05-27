@@ -12,6 +12,9 @@ public class Monster : ScriptableObject
     public BaseStats baseStats;
     public List<LearnableMove> learnableMoves;
     public EvolutionData evolutionData;
+    public Sprite monsterSprite; // Optional sprite for UI representation
+    [TextArea(3, 10)]
+    public string description; // Description for the monster
 }
 
 [System.Serializable]

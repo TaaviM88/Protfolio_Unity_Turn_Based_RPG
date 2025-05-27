@@ -1,13 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Trainer
+{
+    public string trainerName; // e.g., "Trainer Bob"
+    public List<MonsterInstance> monsterParty; // 1–6 monsters
+}
+
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public List<MonsterInstance> playerParty; // Player's monster party
-    public MonsterInstance opponentMonster; // Wild monster or trainer's monster for battle
+    public List<MonsterInstance> playerParty = new List<MonsterInstance>(6); // Up to 6 monsters
+    public MonsterInstance wildMonster; // For wild battles
+    public Trainer opponentTrainer; // For trainer battles
 
-    
     void Awake()
     {
         if (Instance == null)
@@ -23,27 +31,24 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //if (playerParty == null || playerParty.Count == 0)
-        //{
-        //    // Example: Create a dummy monster for testing
-        //    playerParty = new List<MonsterInstance>
-        //    {
-        //        new MonsterInstance
-        //        {
-        //            baseMonster = ScriptableObject.CreateInstance<Monster>(),
-        //            level = 5,
-        //            currentHp = 20,
-        //            currentMoves = new List<Move>()
-        //        }
-        //    };
-        //    playerParty[0].baseMonster.monsterName = "TestMonster";
-        //    playerParty[0].baseMonster.elements = new List<ElementType> { ElementType.Normal };
-        //}
+
     }
 
-    // Update is called once per frame
-    void Update()
+    // Clear battle-specific data
+    public void ClearBattleData()
     {
-        
+        wildMonster = null;
+        opponentTrainer = null;
+    }
+    public bool HasUsableMonsters()
+    {
+        foreach (var monster in playerParty)
+        {
+            if (monster.currentHp > 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -8,39 +8,68 @@ public class BattleTrigger : MonoBehaviour
     [SerializeField] private GameObject overworldRoot; // Root GameObject for overworld objects
     [SerializeField] private Camera overworldCamera; // Overworld camera
     private bool isInBattle = false;
+    private bool isWildBattle = true; // Toggle between wild and trainer for testing
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(battleHotkey))
-        {
-            if (!isInBattle)
-            {
-                StartBattle();
-            }
-            else
-            {
-                EndBattle();
-            }
-        }
+        //if (Input.GetKeyDown(battleHotkey))
+        //{
+        //    if (!isInBattle)
+        //    {
+        //        StartBattle();
+        //    }
+        //    else
+        //    {
+        //        EndBattle();
+        //    }
+        //}
     }
 
-    private void StartBattle()
+    public void StartBattle()
     {
-        // Create a dummy opponent for testing
-        //GameManager.Instance.opponentMonster = new MonsterInstance
-        //{
-        //    baseMonster = ScriptableObject.CreateInstance<Monster>(),
-        //    level = 5,
-        //    currentHp = 20,
-        //    currentMoves = new List<Move>()
-        //};
-        //GameManager.Instance.opponentMonster.baseMonster.monsterName = "WildMonster";
-        //GameManager.Instance.opponentMonster.baseMonster.elements = new List<ElementType> { ElementType.Null };
-
-        // Hide overworld elements
-        //overworldRoot.SetActive(false);
-        //overworldCamera.enabled = false;
+        if (isWildBattle)
+        {
+            // Create a wild monster
+            GameManager.Instance.wildMonster = new MonsterInstance
+            {
+                baseMonster = ScriptableObject.CreateInstance<Monster>(),
+                level = 5,
+                currentHp = 20,
+                currentMoves = new List<Move>()
+            };
+            GameManager.Instance.wildMonster.baseMonster.monsterName = "WildMonster";
+            GameManager.Instance.wildMonster.baseMonster.elements = new List<ElementType> { ElementType.Null };
+        }
+        else
+        {
+            // Create a trainer with 2 monsters for testing
+            GameManager.Instance.opponentTrainer = new Trainer
+            {
+                trainerName = "Trainer Bob",
+                monsterParty = new List<MonsterInstance>
+                {
+                    new MonsterInstance
+                    {
+                        baseMonster = ScriptableObject.CreateInstance<Monster>(),
+                        level = 6,
+                        currentHp = 25,
+                        currentMoves = new List<Move>()
+                    },
+                    new MonsterInstance
+                    {
+                        baseMonster = ScriptableObject.CreateInstance<Monster>(),
+                        level = 7,
+                        currentHp = 30,
+                        currentMoves = new List<Move>()
+                    }
+                }
+            };
+            GameManager.Instance.opponentTrainer.monsterParty[0].baseMonster.monsterName = "TrainerMon1";
+            GameManager.Instance.opponentTrainer.monsterParty[0].baseMonster.elements = new List<ElementType> { ElementType.Fire };
+            GameManager.Instance.opponentTrainer.monsterParty[1].baseMonster.monsterName = "TrainerMon2";
+            GameManager.Instance.opponentTrainer.monsterParty[1].baseMonster.elements = new List<ElementType> { ElementType.Water };
+        }
 
         // Load battle scene additively
         TransitionManager.Instance.FadeToBattle(
@@ -70,7 +99,7 @@ public class BattleTrigger : MonoBehaviour
         isInBattle = true;
     }
 
-    private void EndBattle()
+    public void EndBattle()
     {
         TransitionManager.Instance.FadeToBattle(
             onFadeOut: () =>
@@ -86,7 +115,7 @@ public class BattleTrigger : MonoBehaviour
                 // Set overworld as active scene. Change "OverworldTestScene" to your actual overworld scene name or use index
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName("OverworldTestScene"));
                 isInBattle = false;
-                GameManager.Instance.opponentMonster = null;
+                GameManager.Instance.ClearBattleData();
             }
         );
 

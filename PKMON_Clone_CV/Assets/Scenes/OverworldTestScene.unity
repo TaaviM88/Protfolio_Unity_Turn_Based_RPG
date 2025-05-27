@@ -1279,7 +1279,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerParty: []
-  opponentMonster: {fileID: 0}
+  wildMonster: {fileID: 0}
+  opponentTrainer:
+    trainerName: 
+    monsterParty: []
 --- !u!4 &745586142
 Transform:
   m_ObjectHideFlags: 0
@@ -1760,7 +1763,7 @@ GameObject:
   - component: {fileID: 1202404165}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1789,7 +1792,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.95, z: 0}
+  m_Center: {x: 0, y: 0.98, z: 0}
 --- !u!4 &1202404163
 Transform:
   m_ObjectHideFlags: 0
@@ -1821,6 +1824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnimationController: {fileID: 1202404165}
   cameraTarget: {fileID: 885748157}
+  model: {fileID: 2021877066}
   walkSpeed: 5
   runSpeed: 8
   gravity: -9.81
@@ -1957,6 +1961,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1325523497
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.8598804
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.46208
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.09340657
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.99562806
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -169.281
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      propertyPath: m_Name
+      value: BOB Trainer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1531417627}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1531417626}
+  m_SourcePrefab: {fileID: 100100000, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
 --- !u!1 &1431845100
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,6 +2187,52 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 720d3ce97eb5a654180f601ca554f78d, type: 3}
+--- !u!1 &1531417625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9edca15814632144d8e20f790c3d9b07, type: 3}
+  m_PrefabInstance: {fileID: 1325523497}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1531417626
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531417625}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e52f42b4be691ab4f89047c73a2069d5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1531417627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531417625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ef04a19bc178b4e91764967fd9c5da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trainerName: Trainer Bob
+  trainerData:
+    trainerName: 
+    monsterParty: []
+  interactionRange: 3
+  dialogueText: 
+  animator: {fileID: 1531417626}
 --- !u!1 &1621155389
 GameObject:
   m_ObjectHideFlags: 0
@@ -2247,3 +2360,4 @@ SceneRoots:
   - {fileID: 931098804}
   - {fileID: 67087056}
   - {fileID: 1291793726}
+  - {fileID: 1325523497}

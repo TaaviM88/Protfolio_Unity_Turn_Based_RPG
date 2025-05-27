@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5d828bbe475f343b75f6fdc7d027d8, type: 3}
+  m_Name: 4 Aqua Finch
+  m_EditorClassIdentifier: 
+  monsterName: 'Aqua Finch  '
+  nationaldexNumber: 4
+  monsterPrefab: {fileID: 0}
+  elements: 030000000a000000
+  baseStats:
+    hp: 60
+    attack: 40
+    defense: 50
+    specialAttack: 65
+    specialDefense: 55
+    speed: 70
+  learnableMoves:
+  - move: {fileID: 11400000, guid: 5d71015b4c2074d4c8cd4ff0df9aebee, type: 2}
+    level: 1
+  - move: {fileID: 11400000, guid: 2b6463bae76e90348ab6bdb219f63bae, type: 2}
+    level: 8
+  evolutionData:
+    evolvesInto: {fileID: 0}
+    evolutionLevel: 0
+  monsterSprite: {fileID: 0}
+  description: ' A small bird that skims over water, creating ripples with its wings.
+    It prefers to evade rather than fight.  '
